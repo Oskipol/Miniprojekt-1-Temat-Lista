@@ -24,14 +24,14 @@ void benchmark()
 
     cout << "\nN ";
     for (int s = 0; s < 3; s++)
-        cout << nazwy[s] << "_przod\t" << nazwy[s] << "_tyl\t" << nazwy[s] << "_los\t" << nazwy[s] << "_szukaj\t"; // Nazwy kolumn oddzielone tabem
+        cout << nazwy[s] << "_Dodaj_Przod\t" << nazwy[s] << "_Dodaj_Tyl\t" << nazwy[s] << "_Dodaj_Los\t" << nazwy[s]<<"_Usun_Przod\t"<<nazwy[s]<<"_Usun_Tyl\t"<<nazwy[s]<<"_Usun_Los\t"<<nazwy[s] << "_szukaj\t"; // Nazwy kolumn oddzielone tabem
     cout << "\n";
 
     for (int s = 0; s < ILE; s++)
     {
         int N = ROZMIARY[s];
         Struktura *str[3] = {new Tablica(), new ListaJ(), new ListaD()};
-        long long czasy[3][4] = {}; // 3 struktury x 4 operacje
+        long long czasy[3][7] = {}; // 3 struktury x 7 operacji
 
         for (int r = 0; r < POWT; r++)
         {
@@ -63,15 +63,31 @@ void benchmark()
                 czasy[i][2] += t1 - t0;
                 t0 = nanos();
                 for (int j = 0; j < OPS; j++)
-                    str[i]->szukaj(szukana);
+                    str[i]->usunPrzod();
                 t1 = nanos();
                 czasy[i][3] += t1 - t0;
+                t0 = nanos();
+                for (int j = 0; j < OPS; j++)
+                    str[i]->usunTyl();
+                t1 = nanos();
+                czasy[i][4] += t1 - t0;
+                t0 = nanos();
+                for (int j = 0; j < OPS; j++)
+                    str[i]->usunLos();
+                t1 = nanos();
+                czasy[i][5] += t1 - t0;
+
+                t0 = nanos();
+                for (int j = 0; j < OPS; j++)
+                    str[i]->szukaj(szukana);
+                t1 = nanos();
+                czasy[i][6] += t1 - t0;
             }
         }
 
         cout << N << "\t";
         for (int i = 0; i < 3; i++)
-            for (int j = 0; j < 4; j++)
+            for (int j = 0; j < 7; j++)
                 cout << czasy[i][j] / POWT / OPS << "\t"; // wyświetla wyniki
         cout << "\n";
 

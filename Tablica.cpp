@@ -7,7 +7,7 @@ void Tablica::dodaj(int id, int val){
     rozmiar++;
 }   
 void Tablica::usun(int id){
-    for(int i=id; id<rozmiar-1;i++){
+    for(int i=id; i<rozmiar-1;i++){
         dane[i]=dane[i+1];            //metoda przesuwa elementy w lewo od id, aby usunąć element o indeksie id
     }
     rozmiar--;
