@@ -6,10 +6,15 @@
 #include "Tablica.hpp"
 #include "ListaJ.hpp"
 #include "ListaD.hpp"
+#include <chrono>
 using namespace std;
 
 int losuj() { return (rand() << 16) ^ rand(); }                                // Zwraca losową 4-bajtową liczbę całkowitą
-long long mikros() { return (long long)clock() * 1000000LL / CLOCKS_PER_SEC; } // zwraca czas w mikrosekundach
+long long nanos() {
+    return chrono::duration_cast<chrono::nanoseconds>(
+        chrono::high_resolution_clock::now().time_since_epoch()  
+    ).count();
+}
 
 void benchmark()
 {
@@ -41,25 +46,25 @@ void benchmark()
             long long t0, t1;
             for (int i = 0; i < 3; i++)
             {
-                t0 = mikros();
+                t0 = nanos();
                 for (int j = 0; j < OPS; j++)
                     str[i]->dodajPrzod(j);
-                t1 = mikros();
+                t1 = nanos();
                 czasy[i][0] += t1 - t0;
-                t0 = mikros();
+                t0 = nanos();
                 for (int j = 0; j < OPS; j++)
                     str[i]->dodajTyl(j);
-                t1 = mikros();
+                t1 = nanos();
                 czasy[i][1] += t1 - t0; // pomiary
-                t0 = mikros();
+                t0 = nanos();
                 for (int j = 0; j < OPS; j++)
                     str[i]->dodajLos(j);
-                t1 = mikros();
+                t1 = nanos();
                 czasy[i][2] += t1 - t0;
-                t0 = mikros();
+                t0 = nanos();
                 for (int j = 0; j < OPS; j++)
                     str[i]->szukaj(szukana);
-                t1 = mikros();
+                t1 = nanos();
                 czasy[i][3] += t1 - t0;
             }
         }
